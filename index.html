@@ -81,12 +81,14 @@
 
         var url =
           "http://44.201.153.46:8081/api/v1/reset-password/confirm?t=" + token;
+        var data = { password: pw1 };
 
         fetch(url, {
           method: "POST",
-          body: {
-            password: pw1,
+          headers: {
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify(data),
         })
           .then((res) => res.json())
           .then((data) => console.log(data));
