@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="form">
+      <div>
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          required
+          onkeyup="validatePassword1()"
+          onclick="validatePassword1()"
+        />
+        <p id="message1"></p>
+      </div>
+      <div>
+        <label for="password">Confirm password</label>
+        <input
+          type="password"
+          name="confirm_password"
+          id="confirm_password"
+          required
+          onkeyup="validatePassword2()"
+          onclick="validatePassword2()"
+        />
+        <p id="message2"></p>
+      </div>
+      <button type="submit" id="submit">Submit</button>
+    </form>
+    <script>
+      function validatePassword1() {
+        var pw1 = document.getElementById("password").value;
+
+        if (pw1 == "") {
+          document.getElementById("message1").innerHTML =
+            "**Fill the password please!";
+          return false;
+        }
+        if (pw1.length < 8) {
+          document.getElementById("message1").innerHTML =
+            "**Password length must be atleast 8 characters";
+          return false;
+        } else {
+          document.getElementById("message1").innerHTML = "";
+          return false;
+        }
+      }
+      function validatePassword2() {
+        var pw1 = document.getElementById("password").value;
+        var pw2 = document.getElementById("confirm_password").value;
+
+        if (pw1 !== pw2) {
+          document.getElementById("message2").innerHTML = "Password not match!";
+          return false;
+        } else {
+          document.getElementById("message2").innerHTML = "";
+          return false;
+        }
+      }
+
+      const form = document.getElementById("form");
+
+      // Add 'submit' event handler
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        var pw1 = document.getElementById("password").value;
+        const payload = new FormData();
+        payload.append("password", pw1);
+        console.log([...payload]);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get("t");
+
+        var url =
+          "http://44.201.153.46:8081/api/v1/reset-password/confirm?t=" + token;
+
+        fetch(url, {
+          method: "POST",
+          body: payload,
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      });
+    </script>
+  </body>
+</html>
