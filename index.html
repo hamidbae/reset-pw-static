@@ -79,8 +79,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get("t");
 
-        var url =
-          "http://44.201.153.46:8081/api/v1/reset-password/confirm?t=" + token;
+        var url = "http://44.203.0.77/api/v1/reset-password/confirm?t=" + token;
         var data = { password: pw1 };
 
         fetch(url, {
